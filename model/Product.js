@@ -10,7 +10,7 @@ const productSchema = new mongoose.Schema({
         }]
     },
     image:{type:String},
-    bestseller:{type:String},
+    bestseller:{type:Boolean},
     description:{type:String},
     firm:[{
         type:mongoose.Schema.Types.ObjectId,
