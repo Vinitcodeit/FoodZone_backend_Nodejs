@@ -77,7 +77,7 @@ const getVendorById = async (req, res) => {
     //writing logic to get firmid automatically when a vendor loged in who has already firm from the database
     const vendorFirmId = vendor.firm[0]._id
 
-    res.status(200).json({vendorId, vendorFirmId})
+    res.status(200).json({vendor, vendorId, vendorFirmId})
     console.log("checking for vendorFirmId: ",vendorFirmId);
   } catch (error) {
     console.log(error);
