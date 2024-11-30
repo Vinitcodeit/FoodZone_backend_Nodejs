@@ -8,7 +8,7 @@ const storage = multer.diskStorage({
         cb(null, 'uploads/') //destination folder where the uploaded images will be stored
     },
     filename: function (req, file, cb) {
-      cb(null, Date.now() + path.extname(file.originalname)); //generating a unique filename
+      cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname)); //generating a unique filename
     }
   });
 
@@ -20,7 +20,7 @@ const addFirm = async (req, res) => {
 
     const image = req.file? req.file.filename: undefined;
 
-    const vendor = await Vendor.findById(req.vendorId)
+    const vendor = await Vendor.findById(req.vendorId) //adding firm based on vendorId present in database
 
     if(!vendor){
         res.status(404).json({message: "vendor not found"})

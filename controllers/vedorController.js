@@ -57,7 +57,7 @@ const vendorLogin = async (req, res)=>{
 
 const getAllVendors = async(req, res) => {
   try {
-      const vendors = await Vendor.find().populate('firm');
+      const vendors = await Vendor.find().populate('firm'); //to show vendor records as well as firm records with respect to the vendors
       res.json({ vendors })
   } catch (error) {
       console.log(error);

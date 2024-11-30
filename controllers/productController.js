@@ -1,14 +1,15 @@
 const Firm = require('../model/Firm');
 const Product = require('../model/Product')
 const multer = require('multer')
-const path = require('path')
+const path = require('path');
+
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, 'uploads/') //destination folder where the uploaded images will be stored
     },
     filename: function (req, file, cb) {
-      cb(null, Date.now() + path.extname(file.originalname)); //generating a unique filename
+      cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname)); //generating a unique filename
     }
   });
 
@@ -19,12 +20,11 @@ const storage = multer.diskStorage({
     const {productName, price, category, bestseller, description} = req.body;
     const image = req.file? req.file.filename: undefined;
 
-    const firmId = req.params.firmId
-    const firm = await Firm.findById(firmId)
+    const firmId = req.params.firmId //firmid come from params
+    const firm = await Firm.findById(firmId) //adding product based on firmId present in the database
 
     if(!firm){
         return res.status(404).json({error: "No firm found"})
-
     }
 
     const product = new Product({
@@ -33,7 +33,7 @@ const storage = multer.diskStorage({
 
     const savedProduct = await product.save()
     firm.products.push(savedProduct)  //pushing products to this firm by push method
-    await firm.save()  //saving this firm int this database
+    await firm.save()  //saving this firm into this database
 
     res.status(200).json(savedProduct)
   } catch (error) {
@@ -49,7 +49,6 @@ const getProductByFirm = async (req, res)=>{
 
     if(!firm){
       return res.status(404).json({error: "No Firm Found"})
-
     }
 
     const restaurantName = firm.firmName
